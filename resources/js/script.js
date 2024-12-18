@@ -1,4 +1,4 @@
-let numberOfCubes = 25
+let numberOfCubes = 25 //depois conectar isso com o valor do dropdown
 let result = Math.floor(numberOfCubes / 2);
 
 async function generateNewBingo() {
