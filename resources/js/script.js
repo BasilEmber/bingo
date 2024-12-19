@@ -1,24 +1,31 @@
-let numberOfCubes = 25; //depois conectar isso com o valor do dropdown
-let result = Math.floor(numberOfCubes / 2);
+let numberOfPhrases = 25; //depois conectar isso com o valor do dropdown
+let result = Math.floor(numberOfPhrases / 2);
 
-async function generateNewBingo() {
+const textArea = document.getElementById("bingoTextArea");
+
+async function loadData() {
+	const response = await fetch("data.txt");
+	const data = await response.text();
+	textArea.value = data;
+}
+
+function generateNewBingo() {
 	const bingoBoard = document.getElementById("bingo");
 	bingoBoard.innerHTML = ""; //limpa o bingo, se não o vai gerar um bingo em baixo do bingo antigo
 
-	const numbers = Array.from({ length: 75 }, (_, i) => i + 1);
-	shuffleArray(numbers);
+	const lines = textArea.value
+		.split("\n")
+		.map((line) => line.trim())
+		.filter((line) => line);
 
-	const data = await fetch("data.txt").then((res) => res.text());
-	const lines = data.split("\n").map((line) => line.trim());
-
-	if (lines.length < numberOfCubes) {
-		alert(`O arquivo deve conter pelo menos ${numberOfCubes} frases!`);
+	if (lines.length < numberOfPhrases) {
+		alert(`O arquivo deve conter pelo menos ${numberOfPhrases} frases!`);
 		return;
 	}
 
 	shuffleArray(lines);
 
-	for (let i = 0; i < numberOfCubes; i++) {
+	for (let i = 0; i < numberOfPhrases; i++) {
 		const cell = document.createElement("div");
 		cell.className = "bingoCube";
 		cell.textContent = i === result ? "FREE" : lines[i];
@@ -30,6 +37,16 @@ async function generateNewBingo() {
 	}
 }
 
+function toggleTextarea() {
+	const textArea = document.getElementById("bingoTextArea");
+
+	if (textArea.style.display === "none") {
+		textArea.style.display = "block";
+	} else {
+		textArea.style.display = "none";
+	}
+}
+
 function shuffleArray(array) {
 	for (let i = array.length - 1; i > 0; i--) {
 		const j = Math.floor(Math.random() * (i + 1));
@@ -37,4 +54,5 @@ function shuffleArray(array) {
 	}
 }
 
-window.onload = generateNewBingo;
+toggleTextarea()
+window.onload = loadData();

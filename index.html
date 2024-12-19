@@ -11,7 +11,7 @@
 
 <body>
     <h1>Bingo</h1>
-
+    <textarea name="bingoTextArea" id="bingoTextArea"></textarea>
     <div class="bingoContainer" id="bingo"></div>
     <select name="numbersOfCubes" id="dropdown" style="display: none;">
         <option class="25" value="25">25</option>
@@ -20,6 +20,9 @@
     </select>
     <button class="generateButton" onclick="generateNewBingo()">
         Gerar Novo Bingo
+    </button>
+    <button id="toggleEdit" onclick="toggleTextarea()">
+        Editar Lista Do Bingo
     </button>
     </div>
 
