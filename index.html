@@ -11,21 +11,28 @@
 
 <body>
     <h1>Bingo</h1>
-    <textarea name="bingoTextArea" id="bingoTextArea"></textarea>
-    <div class="bingoContainer" id="bingo"></div>
-    <select name="numbersOfCubes" id="dropdown" style="display: none;">
-        <option class="25" value="25">25</option>
-        <option value="25">40</option>
-        <option value="25">60</option>
-    </select>
+    <div id="bingoWrapper">
+        <div class="bingoArea">
+            <textarea name="bingoTextArea" id="bingoTextArea"></textarea>
+        </div>
+        <div class="bingoArea">
+            <div class="bingoContainer" id="bingo"></div>
+        </div>
+        <div class="bingoArea">
+            <select name="numbersOfCubes" id="dropdown" style="display: none;">
+                <option class="25" value="25">25</option>
+                <option value="25">40</option>
+                <option value="25">60</option>
+            </select>
+        </div>
+    </div>
+
     <button class="generateButton" onclick="generateNewBingo()">
         Gerar Novo Bingo
     </button>
     <button id="toggleEdit" onclick="toggleTextarea()">
         Editar Lista Do Bingo
     </button>
-    </div>
-
     <script src="resources/js/script.js"></script>
 </body>
 

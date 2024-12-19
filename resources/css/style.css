@@ -14,12 +14,12 @@ body {
 }
 
 .bingoContainer {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 1rem;
-    max-width: 400px;
-    margin: 1rem auto;
-    margin-right: 54.5rem;/* cambiara pra centralizar isso, só funciona com 25 cubos no bingo e na resolução de um monitor padrão, depois vou arrumar*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 35rem;
+    margin: auto;
 }
 
 .bingoCube {
@@ -27,8 +27,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 7rem;
-    height: 7rem;
+    width: 6rem;
+    height: 6rem;
     background-color: #2c2c2c;
     color: #f3ecec;
     border-radius: 1rem;
@@ -36,6 +36,7 @@ body {
     text-align: center;
     cursor: pointer;
     transition: background-color 0.3s;
+    margin: 0.3rem;
 }
 
 .bingoCube:hover{
@@ -65,4 +66,27 @@ button{
 button:hover{
     background-color: #640000;
     transition: background-color 0.3s;
+}
+
+#bingoWrapper{
+    display: flex;
+    justify-content: center;
+    flex: 1;
+}
+
+.bingoArea{
+    flex: 1;
+}
+
+.bingoArea:first-child{
+    margin-right: auto;
+}
+
+.bingoArea:last-child{
+    margin-right: auto;
+}
+
+#bingoTextArea{
+    height: 100%;
+    width: 100%;
 }
