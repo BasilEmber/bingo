@@ -54,5 +54,15 @@ function shuffleArray(array) {
 	}
 }
 
+function removeFree(){
+	if (result == -1) {
+		result = Math.floor(numberOfPhrases / 2);
+		alert("Na proxima geração do bingo ele TERA o free no meio")
+	} else{
+		alert("Na proxima geração do bingo ele NÃO TERA o free no meio")
+		result = -1
+	}
+}
+
 toggleTextarea()
 window.onload = loadData();
