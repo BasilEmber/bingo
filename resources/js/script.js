@@ -7,7 +7,10 @@ async function loadData() {
 	const response = await fetch("resources/data.txt");
 	const data = await response.text();
 	textArea.value = data;
-	loadBingo();
+
+	if(JSON.parse(localStorage.getItem("bingoValues"))){
+		loadBingo();	
+	}
 }
 
 function generateNewBingo() {
@@ -100,12 +103,13 @@ function storeMarkedCubes(){
 }
 
 function loadBingo(){
-	bingoValues = JSON.parse(localStorage.getItem("bingoValues"));
-	numberOfPhrases = localStorage.getItem("amount");
+	bingoValues = JSON.parse(localStorage.getItem("bingoValues")) ? JSON.parse(localStorage.getItem("bingoValues")) : fetch("resources/data.txt");
+	numberOfPhrases = localStorage.getItem("amount") ? localStorage.getItem("amount") : 25 ;
 	markedCubes = JSON.parse(localStorage.getItem("markedCubes"));
 
 	createBingoBoard(bingoValues, numberOfPhrases);
 
+	if(markedCubes)
 	for(i = 0; i < markedCubes.length; i++){
 		if(markedCubes[i]){
 			markCube(i);
