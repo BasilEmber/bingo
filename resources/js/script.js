@@ -4,37 +4,63 @@ let result = Math.floor(numberOfPhrases / 2);
 const textArea = document.getElementById("bingoTextArea");
 
 async function loadData() {
-	const response = await fetch("data.txt");
+	const response = await fetch("resources/data.txt");
 	const data = await response.text();
 	textArea.value = data;
+	loadBingo();
 }
 
 function generateNewBingo() {
-	const bingoBoard = document.getElementById("bingo");
-	bingoBoard.innerHTML = ""; //limpa o bingo, se não o vai gerar um bingo em baixo do bingo antigo
-
-	const lines = textArea.value
+	const bingoValues = textArea.value
 		.split("\n")
 		.map((line) => line.trim())
 		.filter((line) => line);
 
-	if (lines.length < numberOfPhrases) {
+	if (bingoValues.length < numberOfPhrases) {
 		alert(`O arquivo deve conter pelo menos ${numberOfPhrases} frases!`);
 		return;
 	}
 
-	shuffleArray(lines);
+	shuffleArray(bingoValues);
+	//textArea.value = bingoValues.toString().Replace(',','\n');
+
+	createBingoBoard(bingoValues,numberOfPhrases);
+	storeBingo(bingoValues,numberOfPhrases);
+}
+
+function createBingoBoard(bingoValues, numberOfPhrases){	
+	const bingoBoard = document.getElementById("bingo");
+	bingoBoard.innerHTML = ""; //limpa o bingo, se não o vai gerar um bingo em baixo do bingo antigo
 
 	for (let i = 0; i < numberOfPhrases; i++) {
 		const cell = document.createElement("div");
 		cell.className = "bingoCube";
-		cell.textContent = i === result ? "FREE" : lines[i];
+		cell.textContent = i === result ? "FREE" : bingoValues[i];
 		if (i === result) cell.classList.add("marked");
 		cell.addEventListener("click", () => {
 			if (i !== result) cell.classList.toggle("marked");
+			storeMarkedCubes();
 		});
 		bingoBoard.appendChild(cell);
 	}
+}
+
+
+function markCube(index){
+	document.getElementsByClassName("bingoCube")[index].classList.add("marked");
+}
+
+function getMarkedCubes(){
+	let markedCubes = [];
+	const bingoCubes = Array.from(document.getElementsByClassName("bingoCube"));
+	
+	bingoCubes.forEach(element => {
+		markedCubes[bingoCubes.indexOf(element)] = element.className.split(' ').indexOf("marked") != -1 ? true : false;
+		//console.log(element);
+	});
+
+	//console.log(markedCubes);
+	return markedCubes;
 }
 
 function toggleTextarea() {
@@ -61,6 +87,29 @@ function removeFree(){
 	} else{
 		alert("Na proxima geração do bingo ele NÃO TERA o free no meio")
 		result = -1
+	}
+}
+
+function storeBingo(bingoValues,numberOfPhrases){
+	localStorage.setItem("bingoValues", JSON.stringify(bingoValues));
+	localStorage.setItem("amount", numberOfPhrases);
+}
+
+function storeMarkedCubes(){
+	localStorage.setItem("markedCubes", JSON.stringify(getMarkedCubes()));
+}
+
+function loadBingo(){
+	bingoValues = JSON.parse(localStorage.getItem("bingoValues"));
+	numberOfPhrases = localStorage.getItem("amount");
+	markedCubes = JSON.parse(localStorage.getItem("markedCubes"));
+
+	createBingoBoard(bingoValues, numberOfPhrases);
+
+	for(i = 0; i < markedCubes.length; i++){
+		if(markedCubes[i]){
+			markCube(i);
+		}
 	}
 }
 
